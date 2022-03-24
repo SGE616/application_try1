@@ -5,6 +5,8 @@ const path = require('path');
 const mongoose = require('mongoose')
 const rawInfo = require('./models/rawinfo');
 const { json } = require('express/lib/response');
+
+const rfList = new Array();
 // const methodOverride = require('method-Override');
 mongoose.connect('mongodb://localhost:27017/rfid', {useNewUrlParser: true, useUnifiedTopology: true,})
     .then(() => {
@@ -28,14 +30,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/showrawdata', (req, res) => {
-	res.render('rawdata');
+	res.render('rawdata', {rfList});
 });
 
 app.post('/postit', async (req, res) => {
-    const rfidInfo = req.body;
+    const uidInfo = req.body;
+    const rfidInfo = {time: new Date(), ...uidInfo};
     console.log('POST from nodeMCU:');
     console.log(rfidInfo);
-    const newEntry = new rawInfo(rfidInfo);
+    rfList.push(rfidInfo);
+    //const newEntry = new rawInfo(rfidInfo);
     //console.log(newEntry)
     //await newEntry.save();
     res.send('success! its working!');

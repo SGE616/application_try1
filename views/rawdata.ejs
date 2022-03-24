@@ -9,7 +9,11 @@
 </head>
 <body>
     <h1>RAW data from sensors:</h1>
-
+    <ul>
+        <% for( let rfid of rfList) { %>
+           <li>Time: <%= rfid.time %>  ==> UID read by rfid reader: <%= rfid.uid %> </li> 
+        <% } %>
+    </ul>
     
 </body>
 </html>
